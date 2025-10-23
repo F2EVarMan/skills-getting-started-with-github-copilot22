@@ -108,6 +108,26 @@ button:hover {
   background-color: #3949ab;
 }
 
+.cancel-btn {
+  background-color: #d32f2f;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.cancel-btn:hover {
+  background-color: #f44336;
+}
+
+.activity-card.registered {
+  background-color: #e8f5e9;
+  border-left: 4px solid #4caf50;
+}
+
+.info-text {
+  color: #666;
+  font-style: italic;
+}
+
 .message {
   margin-top: 20px;
   padding: 10px;

@@ -52,6 +52,16 @@ def get_activities():
     return activities
 
 
+@app.get("/activities/registered/{email}")
+def get_registered_activities(email: str):
+    """Get all activities that a student is registered for"""
+    registered = {}
+    for activity_name, activity_details in activities.items():
+        if email in activity_details["participants"]:
+            registered[activity_name] = activity_details
+    return registered
+
+
 @app.post("/activities/{activity_name}/signup")
 def signup_for_activity(activity_name: str, email: str):
     """Sign up a student for an activity"""
@@ -69,3 +79,22 @@ def signup_for_activity(activity_name: str, email: str):
     # Add student
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
+
+
+@app.delete("/activities/{activity_name}/cancel")
+def cancel_activity_registration(activity_name: str, email: str):
+    """Cancel a student's registration for an activity"""
+    # Validate activity exists
+    if activity_name not in activities:
+        raise HTTPException(status_code=404, detail="Activity not found")
+
+    # Get the specific activity
+    activity = activities[activity_name]
+
+    # Check if user is registered
+    if email not in activity["participants"]:
+        raise HTTPException(status_code=400, detail="User not registered for this activity")
+
+    # Remove student from participants list
+    activity["participants"].remove(email)
+    return {"message": f"Cancelled registration for {email} in {activity_name}"}
