@@ -65,12 +65,29 @@ document.addEventListener("DOMContentLoaded", () => {
         const activityCard = document.createElement("div");
         activityCard.className = "activity-card registered";
 
-        activityCard.innerHTML = `
-          <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
-          <button class="cancel-btn" data-activity="${name}" data-email="${email}">Cancel Registration</button>
-        `;
+        // Create elements safely without innerHTML
+        const title = document.createElement("h4");
+        title.textContent = name;
+        
+        const description = document.createElement("p");
+        description.textContent = details.description;
+        
+        const schedule = document.createElement("p");
+        const scheduleLabel = document.createElement("strong");
+        scheduleLabel.textContent = "Schedule:";
+        schedule.appendChild(scheduleLabel);
+        schedule.appendChild(document.createTextNode(" " + details.schedule));
+        
+        const cancelBtn = document.createElement("button");
+        cancelBtn.className = "cancel-btn";
+        cancelBtn.textContent = "Cancel Registration";
+        cancelBtn.setAttribute("data-activity", name);
+        cancelBtn.setAttribute("data-email", email);
+        
+        activityCard.appendChild(title);
+        activityCard.appendChild(description);
+        activityCard.appendChild(schedule);
+        activityCard.appendChild(cancelBtn);
 
         registeredList.appendChild(activityCard);
       });
